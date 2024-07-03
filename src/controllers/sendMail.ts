@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { injectable } from "tsyringe";
 import sgMail from '@sendgrid/mail';
-import {config} from '../config/config'
+import config from '../config/config'
 
 @injectable()
 

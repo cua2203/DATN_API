@@ -1,7 +1,7 @@
 
 import { Request, Response } from 'express';
 import UploadService from '../services/uploadService';
-import { config } from '../config/config';
+import config  from '../config/config';
 const path = require('path');
 const fs = require('fs');
 

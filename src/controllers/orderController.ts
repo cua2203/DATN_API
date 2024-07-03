@@ -2,7 +2,7 @@ import { Request,Response } from "express";
 import { injectable } from "tsyringe";
 import sgMail from '@sendgrid/mail';
 import { OrderService } from "../services/orderService";
-import {config} from '../config/config'
+import config from '../config/config'
 import { messaging } from "firebase-admin";
 
 
