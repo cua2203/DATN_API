@@ -1,13 +1,13 @@
 import { injectable } from 'tsyringe';
 import { Pool, PoolConnection, createPool } from 'mysql2/promise';
-import config from './config';
+require('dotenv').config();
 // Cấu hình kết nối MySQL
 const connectionConfig = {
-  host: config.db.host,
-  port:  config.db.port,
-  user:  config.db.username,
-  password:  config.db.password,
-  database:  config.db.database
+  host: process.env.DB_HOST ,
+  port:  Number(process.env.DB_PORT) ,
+  user:  process.env.DB_USER ,
+  password:  process.env.DB_PASS ,
+  database:  process.env.DB_NAME 
 };
 
 @injectable()

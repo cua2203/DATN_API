@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import jwt, { decode } from "jsonwebtoken";
-import config from "../config/config";
+
 import { injectable } from "tsyringe";
 import { UserService } from "../services/userService";
 import { generateToken } from "../config/jwt";

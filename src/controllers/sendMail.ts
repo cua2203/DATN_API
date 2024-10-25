@@ -1,14 +1,15 @@
 import { Request, Response } from "express";
 import { injectable } from "tsyringe";
 import sgMail from '@sendgrid/mail';
-import config from '../config/config'
+
+require('dotenv').config();
 
 @injectable()
 
 export class SendMail {
 
-    private apikey = config.apiKey;
-    private fromEmail = config.fromEmail;
+  private apikey: string = process.env.API_KEY ||'default';
+    private fromEmail = process.env.FROM_EMAIL||'default';
 
     sendMail(req: Request, res: Response) {
         sgMail.setApiKey(this.apikey);

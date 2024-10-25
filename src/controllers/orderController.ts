@@ -2,16 +2,16 @@ import { Request,Response } from "express";
 import { injectable } from "tsyringe";
 import sgMail from '@sendgrid/mail';
 import { OrderService } from "../services/orderService";
-import config from '../config/config'
 import { messaging } from "firebase-admin";
+require('dotenv').config();
 
 
 @injectable()
 
 export class OrderController{
 
-    private apikey = config.apiKey;
-    private fromEmail = config.fromEmail;
+    private apikey: string = process.env.API_KEY || 'default';
+    private fromEmail = process.env.FROM_EMAIL || '';
     constructor(private service : OrderService){
         
     }

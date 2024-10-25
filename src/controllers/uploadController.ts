@@ -1,10 +1,13 @@
 
 import { Request, Response } from 'express';
 import UploadService from '../services/uploadService';
-import config  from '../config/config';
+
 const path = require('path');
 const fs = require('fs');
 
+require('dotenv').config();
+
+let imagePath = process.env.IMAGE_PATH;
 class UploadController {
   private uploadService: UploadService;
 
@@ -23,7 +26,7 @@ class UploadController {
   }
 
   getImage(req:Request, res: Response){
-    const imageDirectory = config.imagePath;
+    const imageDirectory = imagePath;
 
     fs.readdir(imageDirectory, (err:any, files:File[]) => {
       if (err) {
@@ -39,7 +42,7 @@ class UploadController {
   }
 
   deleteImage(req:Request, res: Response){
-    const imageDirectory = config.imagePath;
+    const imageDirectory = process.env.IMAGE_PATH;
     const imagePath = path.join(imageDirectory, req.params.imagePath);
     // Sử dụng fs.unlink để xóa ảnh
     fs.unlink(imagePath, (err:any) => {
