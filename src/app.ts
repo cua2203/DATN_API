@@ -1,7 +1,8 @@
 import express, { Request, Response } from 'express';
 import router from './routes';
 const cors = require('cors');
-const PORT = process.env.PORT || 10000;
+require('dotenv').config();
+const PORT = process.env.PORT || 3000;
 
 import { NotificationRepository } from './repositories/notificationRepository';
 

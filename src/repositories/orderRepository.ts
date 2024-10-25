@@ -194,7 +194,7 @@ export class OrderRepository {
     async getorderByEmail(email:string):Promise<any>{
         try{
 
-            let sql = 'select * from orders where email = ? limit 10';
+            let sql = 'select * from orders where email = ?  order by order_id desc limit 10';
             const data = await this.db.query(sql,[email]);
             return data
          

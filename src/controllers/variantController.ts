@@ -60,15 +60,9 @@ export class VariantController {
             const brand = req.query.brand ? (req.query.brand as string):'';
             const category = req.query.category ? (req.query.category as string):'';
             const sort = req.query.sort ? (req.query.sort as string) :'';
-            const price = Number(req.query.price);
-
-            console.log(req.query)
-
-        
-        
+            const price = Number(req.query.price);        
             let data = await this.service.getAll();
     
-      
             if (data && data.length > 0) {
              
               switch (sort) {
@@ -88,10 +82,6 @@ export class VariantController {
                 case 5: data = _.filter(data, (item: any) => {return item.price >40000000}); break;
                 default: data = data; break;
             }
-
-
-           
-              console.log(data)
 
               data = _.filter(data, (item: any) => {
                 return searchString!=''
