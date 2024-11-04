@@ -20,6 +20,21 @@ class UploadController {
     this.uploadService.uploadFile(req, res,des);
   }
 
+  uploadCloudinary(req: Request, res: Response){
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+    console.log(req.file);
+  
+    res.status(200).json({
+      rs:1,
+      message: 'File uploaded successfully',
+      url: req.file.path,
+      file: req.file
+
+    });
+  }
+
   uploadMultiFiles(req: Request, res: Response) {
     const des = req.query.des;
     this.uploadService.uploadMultiFiles(req, res,des);

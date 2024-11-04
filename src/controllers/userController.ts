@@ -15,24 +15,30 @@ export class UserController {
       const { email, password } = req.body;
 
       if (!email || !password) {
-        res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin" });
+        res.status(400).json({ rs: 0, message: "Vui lòng nhập đầy đủ thông tin" });
         return;
       }
-      let hashedPassword = await this.userService.GetOne(email);
-      hashedPassword = hashedPassword.password;
+      let userByEmail = await this.userService.GetOne(email);
 
-      let result = await argon2.verify(hashedPassword, password);
+      if(!userByEmail){
+        res.status(400).json({rs: 0, message: "Sai tài khoản hoặc mật khẩu" });
+        return;
+      }
+      let result = await argon2.verify(userByEmail?.password, password);
+      if(!result){
+        res.status(401).json({rs: 0, message: "Sai tài khoản hoặc mật khẩu" });
+      }
 
-      if (result) {
-        const user = await this.userService.authenticate(email, hashedPassword);
+        const user = await this.userService.authenticate(email, userByEmail?.password);
         const token = generateToken(user);
         user.token = token;
-        res.json(user);
-      } else {
-        res.status(401).json({ message: "Sai tài khoản hoặc mật khẩu" });
-      }
+        user.password = null;
+
+        res.json({rs:1, message: 'Thành công', data: user});
+
     } catch (error: any) {
-      res.json({ message: error.message });
+
+      res.status(500).json({rs: 0, message: 'Lỗi phía server '});
     }
   }
 

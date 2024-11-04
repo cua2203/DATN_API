@@ -59,6 +59,7 @@ export class OrderRepository {
         try{
             const sql = "call totalOrderPrice(?,?)" ;
             const [data] = await this.db.query(sql,[fromDate,toDate]);
+            console.log(data);
            
             return data
         }
@@ -72,8 +73,7 @@ export class OrderRepository {
         try{
             const sql = "call countOrder(?,?)" ;
             const [data] = await this.db.query(sql,[fromDate,toDate]);
-      
-          
+
             return data[0];
         }
 
@@ -87,6 +87,7 @@ export class OrderRepository {
         try{
             const sql = "call getOrderById(?)" ;
             const [data] = await this.db.query(sql,[id]);
+
             if(Array.isArray(data) && data.length>0){
                 return data[0]
             }
@@ -221,9 +222,11 @@ export class OrderRepository {
 
     async countProductSaled(from:any,to:any):Promise<any>{
         try{
+            console.log(from,to);
 
             let sql = 'call countProductSaled(?,?)';
             const [data] = await this.db.query(sql,[from,to]);
+            console.log(data);
             if(Array.isArray(data) && data.length>0){
                 return data
             }

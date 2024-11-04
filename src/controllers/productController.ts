@@ -19,6 +19,7 @@ export class ProductController {
 
 
       let data = await this.service.getAll();
+      let total_count = data.length;
 
       data = _.filter(data, (item: any) => {
         return searchString!=''
@@ -26,12 +27,12 @@ export class ProductController {
           : true;
       });
 
-      switch (isActive) {
-        case 1: data = _.filter(data, (item: any) => {return item.status==1}); break;
-        case 2: data = _.filter(data, (item: any) => {return item.status==0}); break;
-        case 3: data = data ; break;
-        default: data = _.filter(data, (item: any) => {return item.status==1}); break;
-      }
+      // switch (isActive) {
+      //   case 1: data = _.filter(data, (item: any) => {return item.status==1}); break;
+      //   case 2: data = _.filter(data, (item: any) => {return item.status==0}); break;
+      //   case 3: data = data ; break;
+      //   default: data = _.filter(data, (item: any) => {return item.status==1}); break;
+      // }
       
       if (data && data.length > 0) {
   
@@ -46,9 +47,10 @@ export class ProductController {
         let startIndex = (pageIndex - 1) * pageSize;
         let endIndex = startIndex + pageSize;
          data = data.slice(startIndex, endIndex);
+
         let totalPage =Math.ceil(data.length/pageSize)
 
-        res.json({data:data,totalPage:totalPage});
+        res.json({data:data,totalPage:totalPage,total_count:total_count});
       } else {
         res.json({ message: "Không lấy được danh sách" });
       }

@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import router from './routes';
 const cors = require('cors');
 require('dotenv').config();
+
 const PORT = process.env.PORT || 3000;
 
 import { NotificationRepository } from './repositories/notificationRepository';
@@ -12,6 +13,10 @@ const httpServer = require('http').createServer(app);
 const io = require('socket.io')(httpServer, {
   cors: {origin : '*'}
 });
+
+
+
+
 
 // Object để lưu trữ socketID của người dùng
 const users: { [key: string]: string } = {};
@@ -72,6 +77,6 @@ app.use('/api', router);
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);
 });
-httpServer.listen(3000, () => {
-  console.log(`IO on /:3000`);
-});
+// httpServer.listen(3003, () => {
+//   console.log(`IO on /:3000`);
+// });

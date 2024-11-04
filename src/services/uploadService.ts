@@ -1,21 +1,16 @@
-
-import { Request, Response, request } from 'express';
-import multer from 'multer';
-import path from 'path';
-const fs = require('fs');
-
-
+import { Request, Response, request } from "express";
+import multer from "multer";
+import path from "path";
+const fs = require("fs");
 
 class UploadService {
-  uploadFile(req :Request, res : Response, des: any) {
-
-    const uploadDirectory = 'uploads/'+des;
+  uploadFile(req: Request, res: Response, des: any) {
+    const uploadDirectory = "uploads/" + des;
     if (!fs.existsSync(uploadDirectory)) {
       fs.mkdirSync(uploadDirectory, { recursive: true });
     }
-   
-    const storage = multer.diskStorage({
 
+    const storage = multer.diskStorage({
       destination: (req, file, cb) => {
         cb(null, uploadDirectory);
       },
@@ -25,31 +20,31 @@ class UploadService {
       },
     });
 
-    const upload = multer({ storage }).single('file');
+    const upload = multer({ storage }).single("file");
 
-    upload(req, res, (err) =>{
-   
+    upload(req, res, (err) => {
       if (err) {
         return res.status(400).send(err);
       }
       if (req.file) {
-        const filePath = path.join(__dirname, uploadDirectory, req.file.filename);
-        return res.status(200).json({filename:req.file.filename});
+        const filePath = path.join(
+          __dirname,
+          uploadDirectory,
+          req.file.filename
+        );
+        return res.status(200).json({ filename: req.file.filename });
       } else {
-        return res.status(400).send('No file uploaded.');
+        return res.status(400).send("No file uploaded.");
       }
-     
     });
-  };
+  }
 
-  uploadMultiFiles(req :Request, res : Response, des: any) {
-
-    const uploadDirectory = 'uploads/'+des;
+  uploadMultiFiles(req: Request, res: Response, des: any) {
+    const uploadDirectory = "uploads/" + des;
     if (!fs.existsSync(uploadDirectory)) {
       fs.mkdirSync(uploadDirectory, { recursive: true });
     }
     const storage = multer.diskStorage({
-
       destination: (req, file, cb) => {
         cb(null, uploadDirectory);
       },
@@ -59,12 +54,11 @@ class UploadService {
       },
     });
 
-    const upload = multer({ storage }).array('files',6);
+    const upload = multer({ storage }).array("files", 6);
 
-    upload(req, res, (err) =>{
-   
+    upload(req, res, (err) => {
       if (err) {
-        return res.status(400).send({err:err});
+        return res.status(400).send({ err: err });
       }
 
       return res.status(200).json("Success!");

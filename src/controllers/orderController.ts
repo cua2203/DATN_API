@@ -43,6 +43,7 @@ export class OrderController{
         try{
             const fromDate = req.body.fromDate
             const toDate = req.body.toDate
+
             const data = await this.service.getOrderCount(fromDate,toDate);
             res.status(200).json({data:data});
         }
@@ -173,8 +174,8 @@ export class OrderController{
     async getDistinctOrderStatus(req:Request,res:Response):Promise<any>{
         try{
 
-            const from = req.body.from;
-            const to = req.body.to;
+            const from = req.body.fromDate;
+            const to = req.body.toDate;
             let data =await this.service.getDistinctOrderStatus(from,to);
             res.status(200).json({rs:true,message:"thành công!",data:data});
         }
@@ -216,8 +217,8 @@ export class OrderController{
     async countProductSaled(req:Request,res:Response):Promise<any>{
         try{
 
-            const from = req.body.from;
-            const to = req.body.to;
+            const from = req.body.fromDate;
+            const to = req.body.toDate;
             let data =await this.service.countProductSaled(from,to);
             res.status(200).json({rs:true,message:"thành công!",data:data});
         }
