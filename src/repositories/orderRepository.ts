@@ -181,6 +181,7 @@ export class OrderRepository {
 
             let sql = 'call getDistinctOrderStatus(?,?)';
             const [data] = await this.db.query(sql,[from,to]);
+            console.log(data);
             if(Array.isArray(data) && data.length>0){
                 return data
             }
