@@ -4,17 +4,14 @@ import Excel from 'exceljs';
 import * as ExcelJS from 'exceljs';
 import path from 'path';
 
-
 @injectable()
 export class ProductService {
-  constructor(private product: ProductRepository) {
-
-  }
+  constructor(private product: ProductRepository) {}
 
   async getAll(): Promise<any> {
     return this.product.getAll();
   }
-  async getAllwithVariants(id:any): Promise<any> {
+  async getAllwithVariants(id: any): Promise<any> {
     return this.product.getAllwithVariants(id);
   }
 
@@ -36,7 +33,7 @@ export class ProductService {
     const worksheet = workbook.addWorksheet('Laptop List');
 
     const laptop = await this.product.getAll();
-    console.log(laptop)
+    console.log(laptop);
     worksheet.columns = [
       { key: 'id', header: 'laptop_id' },
       { key: 'laptop_name', header: 'laptop_name ' },
@@ -64,8 +61,7 @@ export class ProductService {
     const exportPath = path.resolve('File', `${Date.now()}_laptop.xlsx`);
 
     await workbook.xlsx.writeFile(exportPath);
-  };
-
+  }
 
   async readExcelData(filePath: string) {
     const workbook = new ExcelJS.Workbook();
@@ -75,7 +71,8 @@ export class ProductService {
     const data: any = [];
 
     worksheet.eachRow((row: any, rowNumber: any) => {
-      if (rowNumber !== 1) { // Bỏ qua dòng tiêu đề
+      if (rowNumber !== 1) {
+        // Bỏ qua dòng tiêu đề
         data.push(row.values);
       }
     });
@@ -84,27 +81,26 @@ export class ProductService {
     for (const row of data) {
       const [col1, col2, col3, col4, col5, col6, col7] = row; // Thay thế bằng cấu trúc cột thực tế của bạn
       {
-
       }
 
-      console.log(JSON.stringify({
-  
-        laptop_name: col3,
-        description: col4,
-        image: col5,
-        category_id: col6,
-        brand_id: col7
-
-      }));
-      await this.product.add(JSON.stringify({
-    
-        laptop_name: col3,
-        description: col4,
-        image: col5,
-        category_id: col6,
-        brand_id: col7
-
-      }))
+      console.log(
+        JSON.stringify({
+          laptop_name: col3,
+          description: col4,
+          image: col5,
+          category_id: col6,
+          brand_id: col7,
+        }),
+      );
+      await this.product.add(
+        JSON.stringify({
+          laptop_name: col3,
+          description: col4,
+          image: col5,
+          category_id: col6,
+          brand_id: col7,
+        }),
+      );
     }
   }
 }

@@ -1,64 +1,35 @@
 import { injectable } from 'tsyringe';
 import { Database } from '../config/database';
+import { Icategory } from '../model/category.model';
 
 @injectable()
 export class CategoryRepository {
-  constructor(private db: Database) {
-
+  constructor(private db: Database) {}
+  async getAll(): Promise<Icategory[]> {
+    const sql = 'CALL GetAllCategory()';
+    const [result] = await this.db.query(sql, []);
+    return result;
   }
-  async getAll(): Promise<any> {
-    try {
-      const sql = 'CALL GetAllCategory()';
-      const [results] = await this.db.query(sql, []);
-      return results;
-    } catch (error: any) {
-      throw new Error(error.message);
-    }
-  }
-  async getById(id: string): Promise<any> {
-    try {
-      const sql = 'CALL GetCategoryById(?)';
-      const [results] = await this.db.query(sql, [id]);      
-      if (Array.isArray(results) && results.length > 0) {
-        return results[0];
-      } 
-      return null; 
-    } catch (error:any) {
-      throw new Error( error.message);
-      
-    }
+  async getById(id: string): Promise<Icategory> {
+    const sql = 'CALL GetCategoryById(?)';
+    const [result] = await this.db.query(sql, [id]);
+    return result;
   }
 
   async delete(id: string): Promise<any> {
-    try {
-      const sql = 'CALL HideCategory(?)';
-      
-      await this.db.query(sql, [id]);
-      return true;
-    } catch (error: any) {
-      throw new Error( error.message);
-    }
-  }
-  
-  async update(cat: any): Promise<any> {
-    try {
-      const sql = 'CALL UpdateCategory(?, ?)';
-      
-      await this.db.query(sql, [cat.category_id, cat.category_name]);
-      return true;
-    } catch (error: any) {
-      throw new Error( error.message);
-    }
-  }
-  async add(cat: any): Promise<any> {
-    try {
-      const sql = 'CALL AddCategory(?)';
-      
-      await this.db.query(sql, [ cat]);
-      return true;
-    } catch (error: any) {
-      throw new Error( error.message);
-    }
+    const sql = 'CALL HideCategory(?)';
+
+    return await this.db.query(sql, [id]);
   }
 
+  async update(obj: Icategory): Promise<any> {
+    const sql = 'CALL UpdateCategory(?, ?)';
+
+    return await this.db.query(sql, [obj.category_id, obj.category_name]);
+  }
+  async add(obj: Icategory): Promise<any> {
+    const sql = 'CALL AddCategory(?)';
+
+    return await this.db.query(sql, [obj]);
+  }
 }

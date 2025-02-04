@@ -1,10 +1,10 @@
-import { Request, Response } from "express";
-import jwt, { decode } from "jsonwebtoken";
+import { Request, Response } from 'express';
+import jwt, { decode } from 'jsonwebtoken';
 
-import { injectable } from "tsyringe";
-import { UserService } from "../services/userService";
-import { generateToken } from "../config/jwt";
-import argon2 from "argon2";
+import { injectable } from 'tsyringe';
+import { UserService } from '../services/userService';
+import { generateToken } from '../config/jwt';
+import argon2 from 'argon2';
 
 @injectable()
 export class UserController {
@@ -15,30 +15,34 @@ export class UserController {
       const { email, password } = req.body;
 
       if (!email || !password) {
-        res.status(400).json({ rs: 0, message: "Vui lòng nhập đầy đủ thông tin" });
+        res
+          .status(400)
+          .json({ rs: 0, message: 'Vui lòng nhập đầy đủ thông tin' });
         return;
       }
       let userByEmail = await this.userService.GetOne(email);
 
-      if(!userByEmail){
-        res.status(400).json({rs: 0, message: "Sai tài khoản hoặc mật khẩu" });
+      if (!userByEmail) {
+        res.status(400).json({ rs: 0, message: 'Sai tài khoản hoặc mật khẩu' });
         return;
       }
       let result = await argon2.verify(userByEmail?.password, password);
-      if(!result){
-        res.status(401).json({rs: 0, message: "Sai tài khoản hoặc mật khẩu" });
+      if (!result) {
+        res.status(401).json({ rs: 0, message: 'Sai tài khoản hoặc mật khẩu' });
       }
 
-        const user = await this.userService.authenticate(email, userByEmail?.password);
-        const token = generateToken(user);
-        user.token = token;
-        user.password = null;
+      const user = await this.userService.authenticate(
+        email,
+        userByEmail?.password,
+      );
+      const token = generateToken(user);
+      user.token = token;
+      user.password = null;
 
-        res.json({rs:1, message: 'Thành công', data: user});
-
+      res.json({ rs: 1, message: 'Thành công', data: user });
     } catch (error: any) {
-
-      res.status(500).json({rs: 0, message: 'Lỗi phía server '});
+      console.log(error);
+      res.status(500).json({ rs: 0, message: 'Lỗi phía server ' });
     }
   }
 
@@ -49,9 +53,9 @@ export class UserController {
       const results = await this.userService.Register(user);
 
       if (results) {
-        res.json({ rs: true, message: "Đăng ký thành công !" });
+        res.json({ rs: true, message: 'Đăng ký thành công !' });
       } else {
-        res.json({ rs: false, message: "Tên tài khoản đã tồn tại !" });
+        res.json({ rs: false, message: 'Tên tài khoản đã tồn tại !' });
       }
     } catch (error: any) {
       res.json({ rs: false, message: error.message });
@@ -61,18 +65,18 @@ export class UserController {
   async getAll(req: Request, res: Response): Promise<void> {
     try {
       const search_criteria = {
-        searchString: req.query.searchString ? req.query.searchString : "",
+        searchString: req.query.searchString ? req.query.searchString : '',
         pageIndex: req.query.pageIndex,
         pageSize: req.query.pageSize,
       };
 
       const data = await this.userService.getAll(
-        JSON.stringify(search_criteria)
+        JSON.stringify(search_criteria),
       );
       if (data && data.length > 0) {
-        res.json({ rs: true, message: "Thành công", data: data });
+        res.json({ rs: true, message: 'Thành công', data: data });
       } else {
-        res.json({ rs: false, message: "Không lấy được danh sách" });
+        res.json({ rs: false, message: 'Không lấy được danh sách' });
       }
     } catch (error: any) {
       res.json({ rs: false, message: error.message });
@@ -85,9 +89,9 @@ export class UserController {
 
       const data = await this.userService.getByID(id);
       if (data) {
-        res.json({ rs: true, message: "Thành công", data: data });
+        res.json({ rs: true, message: 'Thành công', data: data });
       } else {
-        res.json({ rs: false, message: "Không lấy được thông tin" });
+        res.json({ rs: false, message: 'Không lấy được thông tin' });
       }
     } catch (error: any) {
       res.json({ rs: false, message: error.message });

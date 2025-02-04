@@ -1,14 +1,11 @@
 import { injectable } from 'tsyringe';
 import { VariantRepository } from '../repositories/variantRepository';
 
-
 @injectable()
 export class VariantService {
-  constructor(private variant: VariantRepository) {
+  constructor(private variant: VariantRepository) {}
 
-  }
-
-  async getAllPaging(search_criteria:any): Promise<any> {
+  async getAllPaging(search_criteria: any): Promise<any> {
     return this.variant.getAllPaging(search_criteria);
   }
   async getAll(): Promise<any> {
@@ -35,10 +32,10 @@ export class VariantService {
   async delete(id: string): Promise<any> {
     return this.variant.delete(id);
   }
-  async add(laptop:any): Promise<any> {
+  async add(laptop: any): Promise<any> {
     return this.variant.add(laptop);
   }
-  async update(laptop:any): Promise<any> {
+  async update(laptop: any): Promise<any> {
     return this.variant.update(laptop);
   }
 }

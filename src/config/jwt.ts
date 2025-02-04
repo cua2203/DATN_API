@@ -1,14 +1,11 @@
 import jwt, { decode } from 'jsonwebtoken';
 require('dotenv').config();
 
-
-
 export const generateToken = (payload: object): string => {
-  return jwt.sign(payload, process.env.JWT_SECRET ||"", {
+  return jwt.sign(payload, process.env.JWT_SECRET || '', {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 };
-
 
 export const verifyToken = (token: string | undefined): any => {
   try {

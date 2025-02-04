@@ -1,66 +1,65 @@
-import { Request, Response } from "express";
-import { injectable } from "tsyringe";
-import { BrandService } from "../services/brandService";
+import { NextFunction, Request, Response } from 'express';
+import { injectable } from 'tsyringe';
+import { BrandService } from '../services/brandService';
+import { IBrand } from '../model/brand.model';
 
 @injectable()
 export class BrandController {
   constructor(private service: BrandService) {}
 
-  async getAll(req: Request, res: Response): Promise<void> {
+  async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const data = await this.service.getAll();
-      if (data && data.length > 0) {
-        res.json(data);
-      } else {
-        res.json({ message: "Không lấy được danh sách" });
-      }
+      let result = await this.service.getAll();
+
+      res.json({ message: 'Thành công', data: result });
     } catch (error: any) {
-      res.json({ message: error.message });
+      next(error);
     }
   }
-  async getById(req: Request, res: Response): Promise<void> {
+  async getById(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
       const id = req.params.id;
-      const category = await this.service.getById(id);   
-      if (category) {
-        res.json(category);
-      } else {
-        res.json({ message: 'Bản ghi không tồn tại' });
-      }
+      const result = await this.service.getById(id);
+      res.status(200).json({ message: 'Thành công', data: result });
     } catch (error: any) {
-      res.json({ message: error.message });
+      next(error);
     }
   }
-  async delete(req: Request, res: Response): Promise<void> {
+  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const id = req.params.id;
     try {
-      const id = req.params.id;
-      const category = await this.service.delete(id);   
-      res.json({message:"Done!"})
+      const result = await this.service.delete(id);
+      res.json({ message: 'Thành công' });
     } catch (error: any) {
-      res.json({ message: error.message });
+      next(error);
     }
   }
 
-  async update(req: Request, res: Response): Promise<void> {
+  async update(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const brand: { brand_id: number; brand_name: string; image: string } =
+      req.body;
     try {
-      const brand:{brand_id:number,brand_name:string,image:string} = req.body;
-      const results = await this.service.update(brand);   
-   
-        res.json({ message: 'Đã cập nhật thành công',results:results});
-      } catch (error: any) {
-        res.json({ message: error.message, results:false});
-      }
+      const result = await this.service.update(brand);
+
+      res
+        .status(200)
+        .json({ message: 'Đã cập nhật thành công', results: result });
+    } catch (error: any) {
+      next(error);
+    }
   }
 
-
-
-  async add(req: Request, res: Response): Promise<void> {
+  async add(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const cat = req.body ;
-      const results = await this.service.add(cat);
-      res.json({ message: 'Đã thêm mới thành công',results:results});
+      const obj = req.body;
+      const results = await this.service.add(obj);
+      res.json({ message: 'Đã thêm mới thành công', results: results });
     } catch (error: any) {
-      res.json({ message: error.message, results:false });
+      next(error);
     }
   }
 }

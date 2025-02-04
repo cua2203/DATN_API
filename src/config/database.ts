@@ -3,11 +3,11 @@ import { Pool, PoolConnection, createPool } from 'mysql2/promise';
 require('dotenv').config();
 // Cấu hình kết nối MySQL
 const connectionConfig = {
-  host: process.env.DB_HOST ,
-  port:  Number(process.env.DB_PORT) ,
-  user:  process.env.DB_USER ,
-  password:  process.env.DB_PASS ,
-  database:  process.env.DB_NAME 
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 };
 
 @injectable()
@@ -20,16 +20,14 @@ export class Database {
     let connection: PoolConnection | null = null;
     try {
       connection = await this.pool.getConnection();
-      const [results] = await connection.query(sql, values);
-      return results;
-    } catch (error) {  
-      throw error;      
+      const [result] = await connection.query(sql, values);
+      return result;
+    } catch (error) {
+      throw error;
     } finally {
       if (connection) {
         connection.release();
       }
     }
-  } 
+  }
 }
-
-

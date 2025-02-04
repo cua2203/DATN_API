@@ -1,27 +1,25 @@
 import { injectable } from 'tsyringe';
 import { CategoryRepository } from '../repositories/categoryRepository';
-
+import { Icategory } from '../model/category.model';
 
 @injectable()
 export class CategoryService {
-  constructor(private category: CategoryRepository) {
+  constructor(private category: CategoryRepository) {}
 
-  }
-
-  async getAll(): Promise<any> {
+  async getAll(): Promise<Icategory[]> {
     return this.category.getAll();
   }
 
-  async getById(id: string): Promise<any> {
+  async getById(id: string): Promise<Icategory> {
     return this.category.getById(id);
   }
   async delete(id: string): Promise<any> {
     return this.category.delete(id);
   }
-  async add(cat:any): Promise<any> {
-    return this.category.add(cat);
+  async add(obj: Icategory): Promise<any> {
+    return this.category.add(obj);
   }
-  async update(cat:any): Promise<any> {
-    return this.category.update(cat);
+  async update(obj: Icategory): Promise<any> {
+    return this.category.update(obj);
   }
 }

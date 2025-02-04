@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { injectable } from "tsyringe";
-import { WarehouseService } from "../services/warehouseService";
+import { Request, Response } from 'express';
+import { injectable } from 'tsyringe';
+import { WarehouseService } from '../services/warehouseService';
 
 @injectable()
 export class WarehouseController {
@@ -11,10 +11,10 @@ export class WarehouseController {
       const data = await this.service.getAll();
 
       if (!data || data.length == 0) {
-        res.json({ rs: false, message: "false", data: [] });
+        res.json({ rs: false, message: 'false', data: [] });
       }
 
-      res.json({ rs: true, message: "success", data: data });
+      res.json({ rs: true, message: 'success', data: data });
     } catch (err: any) {
       throw new Error(err);
     }

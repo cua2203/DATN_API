@@ -1,71 +1,75 @@
-import { Request, Response } from "express";
-import { injectable } from "tsyringe";
-import { CategoryService } from "../services/categoryService";
-import { Icategory } from "../model/category.model";
+import { NextFunction, Request, Response } from 'express';
+import { injectable } from 'tsyringe';
+import { CategoryService } from '../services/categoryService';
+import { Icategory } from '../model/category.model';
 
 @injectable()
 export class CategoryController {
   constructor(private service: CategoryService) {}
 
-  async getAll(req: Request, res: Response): Promise<void> {
+  async getAll(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const data = await this.service.getAll();
-      if (data && data.length > 0) {
-        res.json(data);
+      const result = await this.service.getAll();
+
+      if (result && result.length > 0) {
+        res.json({ rs: true, message: 'Thành công', data: result });
       } else {
-        res.json({ message: "Không lấy được danh sách" });
+        res.json({ rs: false, message: 'Danh sách trống', data: [] });
       }
     } catch (error: any) {
-      res.json({ message: error.message });
+      next(error);
     }
   }
-  async getById(req: Request, res: Response): Promise<void> {
+  async getById(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ): Promise<void> {
     try {
       const id = req.params.id;
-      const category = await this.service.getById(id);   
-      if (category) {
-        res.json(category);
+      const result = await this.service.getById(id);
+      if (result) {
+        res.json({ rs: true, message: 'Thành công', data: result });
       } else {
-        res.json({ message: 'Bản ghi không tồn tại' });
+        res.json({ rs: false, message: 'Bản ghi không tồn tại', data: [] });
       }
     } catch (error: any) {
-      res.json({ message: error.message });
+      next(error);
     }
   }
-  async delete(req: Request, res: Response): Promise<void> {
+  async delete(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const id = req.params.id;
-      const category = await this.service.delete(id);   
-      res.json({message:"Done!"})
+      const result = await this.service.delete(id);
+      res.json({ message: 'Đã xóa thành công ' });
     } catch (error: any) {
-      res.json({ message: error });
+      next(error);
     }
   }
 
-  async update(req: Request, res: Response): Promise<void> {
+  async update(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      console.log(req.body);
-      const cat:{category_id:any,category_name:any,status:any} = req.body;
-      console.log(cat);
-      const results = await this.service.update(cat);   
-   
-        res.json({ message: 'Đã cập nhật thành công',results:results});
-      } catch (error: any) {
-        res.json({ message: error.message, results:false,log:typeof(req.body)});
-      }
+      const obj: { category_id: any; category_name: any; status: any } =
+        req.body;
+      const result = await this.service.update(obj);
+
+      res.json({ rs: true, message: 'Đã cập nhật thành công' });
+    } catch (error: any) {
+      next(error);
+    }
   }
 
-
-
-  async add(req: Request, res: Response): Promise<void> {
+  async add(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-
-
-      const cat = req.body ;
-      const results = await this.service.add(cat.category_name);
-      res.json({ message: 'Đã thêm mới thành công',results:results,danhmuc:req.body});
+      const obj = req.body;
+      const results = await this.service.add(obj.category_name);
+      res.json({
+        rs: true,
+        message: 'Đã thêm mới thành công',
+        danhmuc: req.body,
+      });
     } catch (error: any) {
-      res.json({ message: error.message, results:false });
+      next(error);
     }
   }
 }

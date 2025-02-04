@@ -1,5 +1,5 @@
-export interface Icategory{
-    category_id:number;
-    category_name:string;
-    hidden:boolean;
+export interface Icategory {
+  category_id?: number;
+  category_name: string;
+  status?: boolean;
 }

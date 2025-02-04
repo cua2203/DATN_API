@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-import { injectable } from "tsyringe";
-import { SupplierService } from "../services/supplierService";
+import { Request, Response } from 'express';
+import { injectable } from 'tsyringe';
+import { SupplierService } from '../services/supplierService';
 
 @injectable()
 export class SupplierController {
@@ -11,10 +11,10 @@ export class SupplierController {
       const data = await this.service.getAll();
 
       if (!data || data.length == 0) {
-        res.json({ rs: false, message: "false", data: [] });
+        res.json({ rs: false, message: 'false', data: [] });
       }
 
-      res.json({ rs: true, message: "success", data: data });
+      res.json({ rs: true, message: 'success', data: data });
     } catch (err: any) {
       throw new Error(err);
     }

@@ -6,9 +6,9 @@
     "strict": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": true
     // "allowImportingTsExtensions":true
-  },   
-  "include": ["src"],
+  },
+  "include": ["src","test"],
   "exclude": ["node_modules"]
 }

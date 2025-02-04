@@ -4,7 +4,7 @@ import categoryRouter from './categoryRouter';
 import brandRouter from './brandRouter';
 import userRouter from './userRouter';
 import productRouter from './productRouter';
-import { authenticate,authorization } from '../middlewares/authMiddleware';
+import { authenticate, authorization } from '../middlewares/authMiddleware';
 import variantRouter from './variantRouter';
 import orderRouter from './orderRouter';
 import Uploadrouter from './uploadRouter';
@@ -29,6 +29,4 @@ router.use('/comment', commentRouter);
 router.use('/supplier', supplierRouter);
 router.use('/warehouse', warehouseRouter);
 
-
 export default router;
-  

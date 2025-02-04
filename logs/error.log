@@ -1,0 +1,8 @@
+2024-11-12T13:04:58.788Z [ERROR] - Not implemented - /api/brand/getAll - GET - ::1
+2024-11-12T15:26:58.336Z [ERROR] - unsupported charset "UTF-8" - /api//1 - DELETE - ::1
+2024-11-12T15:39:41.070Z [ERROR] - unsupported charset "UTF-8" - /api/brand - GET - ::1
+2024-11-12T16:13:42.994Z [ERROR] - Duplicate entry 'test' for key 'brand.brand_name' - /api/brand - POST - ::ffff:127.0.0.1
+2024-11-12T16:23:59.403Z [ERROR] - Duplicate entry 'test' for key 'brand.brand_name' - /api/brand - POST - ::ffff:127.0.0.1
+2025-02-04T00:25:16.571Z [ERROR] - connect ETIMEDOUT - /api/brand/1 - GET - ::ffff:127.0.0.1
+2025-02-04T00:25:21.364Z [ERROR] - connect ETIMEDOUT - /api/brand - GET - ::ffff:127.0.0.1
+2025-02-04T00:25:26.574Z [ERROR] - connect ETIMEDOUT - /api/brand - POST - ::ffff:127.0.0.1
